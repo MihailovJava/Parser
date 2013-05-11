@@ -6,17 +6,75 @@
               android:layout_height="match_parent">
              <TextView
                  android:id="@+id/textview"
-                 android:layout_width="fill_parent"
+                 android:layout_width="wrap_content"
                  android:layout_height="wrap_content"
-            />
-    <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="New Button"
-            android:id="@+id/button" android:layout_gravity="right|center_vertical"/>
+                 android:layout_gravity="center" android:textSize="35dp" android:textIsSelectable="false"
+                 android:text="exp(x)"/>
     <EditText
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:id="@+id/editText" android:singleLine="false"
-            android:text=" MOVE 1 [11] // память с единицей\n   MOVE 1 [10] // степень экспоненты\n  MOVE [10] [18] // cтепень для эскпоненты компьютера\n  MOVE -1 [9] // память с -1 единицей\n  MOVE [10] A18\n   MOVE [10] A8 //x\n  ADD [11] A9 A9\n  ADD A8 A9 A9\n  MOVE 2 [12] // counter\n  MOVE [12] A10\n  MOVE [11] A11\n   PROC pow\n   MULT A0 A11 A12\n  ADD A9 A12 A9\n  MOVE 3 [12]\n  MOVE [12] A10 // counter\n  MOVE [11] A11\n  PROC pow\n  MULT A1 A11 A12\n  ADD A9 A12 A9\n  MOVE 4 [12]\n  MOVE [12] A10 // counter\n  MOVE [11] A11\n  PROC pow\n  MULT A2 A11 A12\n  ADD A9 A12 A9\n  MOVE 5 [12]\n  MOVE [12] A10 // counter\n  MOVE [11] A11\n  PROC pow\n  MULT A3 A11 A12\n  ADD A9 A12 A9\n  MOVE 6 [12]\n  MOVE [12] A10 // counter\n  MOVE [11] A11\n  PROC pow\n  MULT A4 A11 A12\n  ADD A9 A12 A9\n  MOVE 7 [12]\n  MOVE [12] A10 // counter\n   MOVE [11] A11\n  PROC pow\n  MULT A5 A11 A12\n  ADD A9 A12 A9\n  MOVE 8 [12]\n  MOVE [12] A10 // counter\n  MOVE [11] A11\n  PROC pow\n  MULT A6 A11 A12\n  ADD A9 A12 A9\n  MOVE 9 [12]\n  MOVE [12] A10 // counter\n  MOVE [11] A11\n  PROC pow\n  MULT A7 A11 A12\n  ADD A9 A12 A9\n  MOVE A19 [19] // вывод результата в память\n  STOP \n   // часть программы для демонстрации\n   // вычисления экспонеты для степеней\n   // больше  единицы по модулю\n   MOVE 2 [13]\n // cтепень  MOVE [13] [18] // cтепень для экспоненты компьютера\n	  МOVE [13] A10 // counter\n  MOVE [11] A11\n  MOVE A19 A8\n  PROC pow\n  ADD A17 A11 A18 // A17 = 0\n   pow\n  MULT A8 A11 A11\n  ADD [9] A10 A10\n  JUMP.NZ pow\n  RET pow\n"/>
-</LinearLayout>
+            android:text="                              MOVE 1 [11] // память с единицей\n
+                             MOVE 1 [10] // степень экспоненты\n
+                             MOVE [10] [18] // cтепень для эскпоненты компьютера\n
+                             MOVE -1 [9] // память с -1 единицей\n
+                             MOVE [10] A18\n
+                             MOVE [10] A10 //x\n
+                             ADD [11] A11 A11\n
+                             ADD A10 A11 A11\n
+                             MOVE 2 [12] // counter\n
+                             MOVE [12] A12\n
+                             MOVE [11] A13\n
+                             PROC pow\n
+                             MULT A0 A13 A14\n
+                             ADD A11 A14 A11\n
+                             MOVE 3 [12]\n
+                             MOVE [12] A12 // counter\n
+                             MOVE [11] A13\n
+                             PROC pow\n
+                             MULT A1 A13 A14\n
+                             ADD A11 A14 A11\n
+                             MOVE 4 [12]\n
+                             MOVE [12] A12 // counter\n
+                             MOVE [11] A13\n
+                             PROC pow\n
+                             MULT A2 A13 A14\n
+                             ADD A11 A14 A11\n
+                             MOVE 5 [12]\n
+                             MOVE [12] A12 // counter\n
+                             MOVE [11] A13\n
+                             PROC pow\n
+                             MULT A3 A13 A14\n
+                             ADD A11 A14 A11\n
+                             MOVE 6 [12]\n
+                             MOVE [12] A12 // counter\n
+                             MOVE [11] A13\n
+                             PROC pow\n
+                             MULT A4 A13 A14\n
+                             ADD A11 A14 A11\n
+                             MOVE 7 [12]\n
+                             MOVE [12] A12 // counter\n
+                             MOVE [11] A13\n
+                             PROC pow\n
+                             MULT A5 A13 A14\n
+                             ADD A11 A14 A11\n
+                             MOVE 8 [12]\n
+                             MOVE [12] A12 // counter\n
+                             MOVE [11] A13\n
+                             PROC pow\n
+                             MULT A6 A13 A14\n
+                             ADD A11 A14 A11\n
+                             MOVE 9 [12]\n
+                             MOVE [12] A12 // counter\n
+                             MOVE [11] A13\n
+                             PROC pow\n
+                             MULT A7 A13 A14\n
+                             ADD A11 A14 A11\n
+                             MOVE A19 [19] // вывод результата в память\n
+                             STOP \n
+                             pow\n
+                             MULT A10 A13 A13\n
+                             ADD [9] A12 A12\n
+                             JUMP.NZ pow\n
+                             RET pow\n"/>
+        </LinearLayout>

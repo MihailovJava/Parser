@@ -6,6 +6,6 @@ package com.example.arithmetic;
  * Time: 18:56
  */
 public class Number {
-    protected int[] numer;
-    protected int[] denom;
+    protected int rank;
+    protected int[] number;
 }

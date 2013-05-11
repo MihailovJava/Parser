@@ -6,30 +6,26 @@ package com.example.arithmetic;
  * Time: 18:55
  */
 public class BinaryNumber extends Number {
-    private int capacity;
     private boolean negative = false;
-    private double number;
 
-    public int getNumerBit(int index){
-        if (index > -1 & index < capacity/2){
-            return numer[index];
+    public int getWeightCoeff() {
+        return weightCoeff;
+    }
+
+    private double numbeWithoutWeightr;
+    private int  weightCoeff;
+    private double numberWithWeight;
+    private int integer;
+
+    public int getBit(int index){
+        if (index > -1 & index < rank){
+            return number[index];
         }
         return -1;
     }
 
-    public int getDenomBit(int index){
-        if (index > -1 & index < capacity/2){
-            return denom[index];
-        }
-        return -1;
-    }
-
-    public int[] getDenom(){
-        return denom;
-    }
-
-    public int[] getNumer(){
-        return numer;
+    public int[] getBitArray(){
+        return number;
     }
 
     public  boolean  isNegative(){
@@ -37,179 +33,185 @@ public class BinaryNumber extends Number {
     }
 
     public void setNegative(boolean negative){
-        number = -Math.abs(number);
+        numberWithWeight = -Math.abs(numberWithWeight);
+        numbeWithoutWeightr = -Math.abs(numbeWithoutWeightr);
         this.negative = negative;
     }
-    public int getCapacity() {
-        return capacity;
+    public int getRank() {
+        return rank;
     }
 
-    public double getNumber(){
+    public double getNumberWithWeight(){
         double num = 0;
-        for (int i = 0 ; i < capacity/2  ; i++){
-            num += denom[i]  * Math.pow(2,-i-1);
+
+        if (isNegative()){
+            inverseNumber();
         }
-        for (int i = 0 ; i < capacity/2  ; i++){
-            num += numer[i]  * Math.pow(2,i);
+
+        for (int i = 1 ; i < weightCoeff+1  ; i++){
+            num += number[i]  * Math.pow(2,weightCoeff - i);
         }
-        if (isNegative())
+        for (int j = 1 , i = weightCoeff+1 ; i < rank ; i++,j++){
+            num += number[i]   *  Math.pow(2,-j);
+        }
+
+        if (isNegative()){
+            inverseNumber();
             num *= -1;
+        }
+
         return num;
     }
 
-    private  int getNumberLenght(int number){
-        int num = number;
-        int lenght = 0;
-        while (num > 0){
-            num /= 2;
-            lenght++;
+    public int getInteger(){
+        int num = 0;
+        if (isNegative()){
+            inverseNumber();
         }
-        return lenght;
-    }
-
-    private void moveRightNumer(){
-        for (int i = 0; i < capacity/2-1 ; i++)
-            numer[i] = numer[i+1];
-    }
-
-    public void moveLeftNumer(){
-        number *= 2;
-        for (int i = capacity/2-3 ; i > -1 ; i--)
-            numer[i+1] = numer[i];
-        numer[0] = denom[0];
-        moveLeftDenom();
-    }
-
-    public void moveRightDenom(){
-        number /= 2;
-        for (int i = capacity/2-2 ; i > -1  ; i--)
-            denom[i+1] = denom[i];
-        denom[0] = numer[0];
-        moveRightNumer();
-    }
-
-    private void moveLeftDenom(){
-        for (int i = capacity/2-2 ; i > -1 ; i--)
-            denom[i] = denom[i+1];
-    }
-
-    public int compareNumerWithNumer(int[] numer){
-        int lenght = numer.length;
-        for (int i = lenght - 2 ; i > -1 ; i--){
-            if (this.numer[i] > numer[i])
-                return 1;
-            if (this.numer[i] < numer[i])
-                return -1;
+        for (int  i = rank - 1,j = 0 ; i > 0 ; i--,j++){
+            num += number[i]  *  Math.pow(2,j);
         }
-        return 0;
+        if (isNegative()){
+            inverseNumber();
+            num *= -1;
+        }
+        return num;
     }
+
+    public double getNumberWithoutWeight(){
+        double num = 0;
+        if (isNegative()){
+            inverseNumber();
+        }
+        for (int  i = 1 ; i < rank ; i++){
+            num += number[i]  *  Math.pow(2,-i);
+        }
+        if (isNegative()){
+            inverseNumber();
+            num *= -1;
+        }
+        return num;
+    }
+
+    public void moveRight(){
+        for (int i = rank - 1; i > 1 ; i--)
+            number[i] = number[i-1];
+        number[1] = 0;
+        numberWithWeight /= 2;
+        numbeWithoutWeightr /= 2;
+        integer /= 2;
+    }
+
+    public void moveLeft(){
+        numberWithWeight *= 2;
+        numbeWithoutWeightr *= 2;
+        integer *= 2;
+        for (int i = 1 ; i < rank-1 ; i++)
+            number[i] = number[i+1];
+        number[rank-1] = 0;
+
+    }
+
 
     public void inverseNumber(){
 
-        for (int i = 0 ; i < capacity/2 ; i++){
-           numer[i] = numer[i] > 0 ? 0 : 1;
-           denom[i] = denom[i] > 0 ? 0 : 1;
+        for (int i = 0 ; i < rank ; i++){
+           number[i] = number[i] > 0 ? 0 : 1;
         }
-        denom[capacity/2-1] += 1;
-        for (int i =  capacity/2 - 1 ; i > 0 ; i--){
-            if (denom[i] > 1){
-                if (denom[i] > 2)
-                    denom[i] /= 2;
-                else
-                    denom[i] = 0;
-                denom[i-1] ++;
-            }
-        }
-        if (denom[0] > 1){
-            if (denom[0] > 2)
-                denom[0] /= 2;
-            else
-                denom[0] = 0;
-            numer[0] ++;
-        }
-        for (int i = 0 ; i < capacity/2-1 ; i++){
-            if (numer[i] > 1){
-                if (numer[i] > 2)
-                    numer[i] /= 2;
-                else
-                    numer[i] = 0;
-                numer[i+1] ++;
-            }
+        number[rank-1] += 1;
+
+        for (int i = rank-1 ; i > 1  ; i--){
+            if (this.number[i] > 1){
+                this.number[i] %= 2;
+                this.number[i-1] ++;
+            } else
+                break;
+
         }
     }
 
 
 
-    public void setNumber(BinaryNumber number){
-        this.number = number.number;
-        this.negative = number.negative;
-        this.capacity = number.capacity;
-        this.numer = new int[capacity/2];
-        this.denom = new int[capacity/2];
+    public  BinaryNumber(BinaryNumber number){
 
-        for (int i = 0 ; i < number.numer.length - 1 ; i++){
-            this.numer[i] = number.numer[i];
-            this.denom[i] = number.denom[i];
+        this.rank = number.rank;
+        this.number = new int[rank];
+        this.weightCoeff = number.weightCoeff;
+        for (int i = 0 ; i < rank - 1 ; i++){
+            this.number[i] = number.number[i];
         }
+        this.negative = this.number[0] == 1;
+        numberWithWeight = getNumberWithWeight();
+        numbeWithoutWeightr = getNumberWithoutWeight();
+        integer = getInteger();
     }
 
-    public BinaryNumber(int[] numer,int[] denom,int capacity){
-        this.numer = new int[capacity/2];
-        this.denom = new int[capacity/2];
 
-        for (int i = 0 ; i < numer.length ; i++){
-            this.numer[i] = numer[i] > 0 ? 1 : 0;
-        }
-
-        for (int i = 0 ; i < denom.length ; i++){
-            this.denom[i] = denom[i] > 0 ? 1 : 0;
-        }
-        this.capacity = capacity;
-        if (numer[numer.length-1] == 1){
+    public BinaryNumber(int[] number,int rank,int weightCoeff){
+        this.number = new int[rank];
+        this.weightCoeff = weightCoeff;
+        this.rank = rank;
+        if (number[0] == 1){
             setNegative(true);
-            inverseNumber();
-            this.number = getNumber();
-        } else {
-            this.number = getNumber();
         }
+
+        for (int i = number.length-1,j = rank-1 ; i > 0 ; i--,j--){
+            this.number[j] = number[i] > 0 ? 1 : 0;
+        }
+
+        numberWithWeight = getNumberWithWeight();
+        numbeWithoutWeightr = getNumberWithoutWeight();
+        integer = getInteger();
     }
 
-    public BinaryNumber(double number,int capacity){
-        this.capacity = capacity;
-        numer = new int[capacity/2];
-        denom = new int[capacity/2];
+    public BinaryNumber(double number,int rank,int weightCoeff){
+        this.rank = rank;
+        this.number = new int[rank];
+        this.weightCoeff = weightCoeff;
 
+        int numer[] = new int[weightCoeff];
         int num = (int) Math.abs( number );
         double den = Math.abs(number) - num;
-
-        int counter = getNumberLenght(num) - 1;
-        // initialize  numer
-        if (counter > capacity/2 - 1 & number > 0) {
-            Exeptions.e(Exeptions.OUT_OF_RANGE);
-        }   else {
-            counter = 0;
-            while (num > 0){
-                numer[counter] = num%2;
-                num /= 2;
-                counter++;
+        int counter = 0;
+        while (num > 0){
+            if (!(counter < weightCoeff)){
+                Exeptions.getInstance().e(Exeptions.OUT_OF_RANGE);
+                return;
             }
-            counter = 0;
-            while (den != 0)
-            {
-                num = (int) (den*2);
-                denom[counter] = num;
-                den = den * 2 - num;
-                ++counter;
-                if (counter == capacity/2 - 1) // тут понимаем, процесс затянулся и число может быть вообще иррационально, поставим точки
+             numer[counter] = num%2;
+             num /= 2;
+             counter++;
+        }
+        counter = 1;
+        for (int i = weightCoeff-1 ; i > -1  ; i-- ){
+            this.number[weightCoeff-i] = numer[i];
+            counter++;
+        }
+        while (den != 0){
+             num = (int) (den*2);
+             this.number[counter] = num;
+             den = den * 2 - num;
+             ++counter;
+             if (counter == rank)
                 {
+                    num = (int) (den*2);
+                    this.number[counter-1] += num;
                     break;
                 }
             }
+        for (int i = rank-1 ; i > 2  ; i--){
+            if (this.number[i] > 1){
+                this.number[i] %= 2;
+                this.number[i-1] ++;
+            } else  break;
         }
         if (number < 0) {
            negative = true;
+           inverseNumber();
         }
-        this.number = getNumber();
+        numberWithWeight = getNumberWithWeight();
+        numbeWithoutWeightr = getNumberWithoutWeight();
+        integer = getInteger();
     }
 
 
